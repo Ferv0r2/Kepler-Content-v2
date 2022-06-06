@@ -63,6 +63,14 @@
   .text-shadow-none {
     text-shadow: none;
   }
+
+  .text-shadow-red {
+    text-shadow: 0 0 15px #ff0000;
+  }
+
+  .shadow-custom {
+    box-shadow: inset 0 0 15px #ff0000, 0 0 15px #ff0000;
+  }
 }
 
 iframe {

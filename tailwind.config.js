@@ -33,6 +33,7 @@ module.exports = {
         miningModalBottom: "#120326",
         miningModalBorder: "#4b2e78",
         miningModalText: "#a875bd",
+        shopItem: "#2b2b2b",
         light_gray: "#b5b2bc",
         hover_pink: "#d52e82",
         top_gray: "#a3a3a3",

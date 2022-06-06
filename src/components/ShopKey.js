@@ -1,122 +1,50 @@
 import React from "react";
 
-const ShopKey = ({
-  count,
-  input1,
-  input2,
-  input3,
-  num1,
-  num2,
-  num3,
-  setOpen,
-}) => {
+const ShopKey = ({ id, input1, input2, input3, num1, num2, num3, setOpen }) => {
+  const key = ["normal_key", "rare_key", "unique_key"];
+  const inp = [input1, input2, input3];
+  const num = [num1, num2, num3];
+
+  const data = [...Array(id + 1)].map((v, i) => {
+    return (
+      <div className="py-2">
+        <input
+          className="w-full bg-white text-black text-center"
+          placeholder="번호 입력"
+          onChange={inp[i]}
+          value={num[i]}
+        />
+      </div>
+    );
+  });
+
   return (
-    <div className="table_contents">
-      <div className="items">
-        <ul className="item">
-          <li>
-            <input
-              type="text"
-              placeholder="번호 기입"
-              onChange={input1}
-              value={num1}
-            />
-          </li>
-          <li>
-            <img src="images/shop/after.png" className="item_arrow" />
-          </li>
-          <li>
-            <img src="images/shop/normal_key.png" className="item_bg" />
-          </li>
-          <div className="item_border" onClick={setOpen}>
-            <p>교환</p>
-          </div>
-        </ul>
-        <div className="item_m" onClick={setOpen}>
-          <p>교환</p>
+    <>
+      <ul className="flex w-full py-8 px-4 sm:pl-12 items-center text-base sm:text-lg">
+        <li className="w-4/12 m-auto">{data}</li>
+        <li className="w-2/12 m-auto">
+          <img
+            className="w-10/12 sm:w-1/2 m-auto"
+            src="images/shop/after.png"
+          />
+        </li>
+        <li className="w-3/12 sm:w-2/12 m-auto bg-shopItem rounded-2xl">
+          <img src={`images/shop/${key[id]}.png`} />
+        </li>
+        <div
+          className="hidden sm:block w-4/12 m-auto text-2xl cursor-pointer hover:text-shopItem"
+          onClick={setOpen}
+        >
+          <p className="border-2 w-1/2 p-2 m-auto">교환</p>
         </div>
+      </ul>
+      <div
+        className="block sm:hidden w-5/12 m-auto text-xl cursor-pointer hover:text-shopItem"
+        onClick={setOpen}
+      >
+        <p className="border-2 w-1/2 p-2 m-auto">교환</p>
       </div>
-      <div className="items">
-        <ul className="item">
-          <div>
-            <li>
-              <input
-                type="text"
-                placeholder="번호 기입"
-                onChange={input1}
-                value={num1}
-              />
-            </li>
-            <li>
-              <input
-                type="text"
-                placeholder="번호 기입"
-                onChange={input2}
-                value={num2}
-              />
-            </li>
-          </div>
-          <li>
-            <img src="images/shop/after.png" className="item_arrow" />
-          </li>
-          <li>
-            <img src="images/shop/rare_key.png" className="item_bg" />
-          </li>
-          <div className="item_border" onClick={setOpen}>
-            <p>교환</p>
-          </div>
-        </ul>
-        <div className="item_m" onClick={setOpen}>
-          <p>교환</p>
-        </div>
-      </div>
-      <div className="items">
-        <ul className="item">
-          <li>
-            <li>
-              <input
-                type="text"
-                placeholder="번호 기입"
-                onChange={input1}
-                value={num1}
-              />
-            </li>
-            <li>
-              <input
-                type="text"
-                placeholder="번호 기입"
-                onChange={input2}
-                value={num2}
-              />
-            </li>
-            <li>
-              <input
-                type="text"
-                placeholder="번호 기입"
-                onChange={input3}
-                value={num3}
-              />
-            </li>
-          </li>
-          <li>
-            <img src="images/shop/after.png" className="item_arrow" />
-          </li>
-          <li>
-            <img src="images/shop/unique_key.png" className="item_bg" />
-          </li>
-          <div className="item_border" onClick={setOpen}>
-            <p>교환</p>
-          </div>
-        </ul>
-        <div className="item_m" onClick={setOpen}>
-          <p>교환</p>
-        </div>
-      </div>
-      <div className="item_count">
-        <p>남은 NFT 갯수</p>
-        <p>{count}</p>
-      </div>
-    </div>
+    </>
   );
 };
 

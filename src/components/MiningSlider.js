@@ -11,7 +11,7 @@ const MiningSlider = () => {
     setPickId(currentSlide);
     return (
       <div
-        className="absolute top-48 -left-16 w-8 h-8 cursor-pointer"
+        className="absolute sm:top-48 sm:-left-16 bottom-0 left-8 w-8 h-8 cursor-pointer z-10"
         onClick={() => {
           onClick();
         }}
@@ -25,7 +25,7 @@ const MiningSlider = () => {
     setPickId(currentSlide);
     return (
       <div
-        className="absolute top-48 -right-16 w-8 h-8 cursor-pointer"
+        className="absolute sm:top-48 sm:-right-16 bottom-0 right-8 w-8 h-8 cursor-pointer z-10"
         onClick={() => {
           onClick();
         }}
@@ -45,7 +45,7 @@ const MiningSlider = () => {
     prevArrow: <CustomPrevArrow />,
   };
   return (
-    <div className="w-6/12 m-auto text-2xl text-box_text text-center font-[GmarketSansMedium]">
+    <div className="w-full md:w-6/12 sm:w-8/12 m-auto text-2xl sm:text-3xl text-box_text text-center font-GmarketSansBold">
       <Slider {...settings}>
         <div>
           <div className="relative w-108 h-108 m-auto">

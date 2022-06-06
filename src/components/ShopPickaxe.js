@@ -1,93 +1,40 @@
 import React from "react";
 
-const ShopPickaxe = ({ count, sendTx }) => {
+const ShopPickaxe = ({ id, sendTx }) => {
+  const pickaxe = ["normal_pickaxe", "rare_pickaxe", "unique_pickaxe"];
+
   return (
-    <div>
-      <div className="table_contents">
-        <div className="items">
-          <ul className="item">
-            <li className="item_bg">
-              <img src="images/shop/faded_stone.png" />
-            </li>
-            <li>
-              <h2>X</h2>
-            </li>
-            <li>
-              <h1>10</h1>
-            </li>
-            <li>
-              <img src="images/shop/after.png" className="item_arrow" />
-            </li>
-            <li className="item_bg">
-              <img src="images/shop/normal_pickaxe.png" />
-            </li>
-            <div className="item_border" onClick={sendTx}>
-              <p>교환</p>
-            </div>
-          </ul>
-
-          <div className="item_m" onClick={sendTx}>
-            <p>교환</p>
-          </div>
+    <>
+      <ul className="flex w-full py-8 px-4 sm:pl-12 items-center text-lg">
+        <li className="w-3/12 sm:w-2/12 m-auto bg-shopItem rounded-2xl">
+          <img src="images/shop/faded_stone.png" />
+        </li>
+        <li className="w-1/12 m-auto italic">
+          <h2>X</h2>
+        </li>
+        <li className="w-1/12 m-auto text-2xl italic">
+          <h1>{10 + 10 * id}</h1>
+        </li>
+        <li className="w-3/12 sm:w-2/12 m-auto">
+          <img className="w-1/2 m-auto" src="images/shop/after.png" />
+        </li>
+        <li className="w-3/12 sm:w-2/12 m-auto bg-shopItem rounded-2xl">
+          <img src={`images/shop/${pickaxe[id]}.png`} />
+        </li>
+        <div
+          className="hidden sm:block w-4/12 m-auto text-2xl cursor-pointer hover:text-shopItem"
+          onClick={sendTx}
+        >
+          <p className="border-2 w-1/2 p-2 m-auto">교환</p>
         </div>
-        <div className="items">
-          <ul className="item">
-            <li className="item_bg">
-              <img src="images/shop/faded_stone.png" />
-            </li>
-            <li>
-              <h2>X</h2>
-            </li>
-            <li>
-              <h1>20</h1>
-            </li>
-            <li>
-              <img src="images/shop/after.png" className="item_arrow" />
-            </li>
-            <li className="item_bg">
-              <img src="images/shop/rare_pickaxe.png" />
-            </li>
-            <div className="item_border" onClick={sendTx}>
-              <p>교환</p>
-            </div>
-          </ul>
-
-          <div className="item_m" onClick={sendTx}>
-            <p>교환</p>
-          </div>
-        </div>
-        <div className="items">
-          <ul className="item">
-            <li className="item_bg">
-              <img src="images/shop/faded_stone.png" />
-            </li>
-            <li>
-              <h2>X</h2>
-            </li>
-            <li>
-              <h1>30</h1>
-            </li>
-            <li>
-              <img src="images/shop/after.png" className="item_arrow" />
-            </li>
-            <li className="item_bg">
-              <img src="images/shop/unique_pickaxe.png" />
-            </li>
-            <div className="item_border" onClick={sendTx}>
-              <p>교환</p>
-            </div>
-          </ul>
-
-          <div className="item_m" onClick={sendTx}>
-            <p>교환</p>
-          </div>
-        </div>
-        <div className="item_count">
-          <p>남은 빛바랜 스톤 갯수</p>
-          <p>{count}</p>
-        </div>
+      </ul>
+      <div
+        className="block sm:hidden w-5/12 m-auto text-xl cursor-pointer hover:text-shopItem"
+        onClick={sendTx}
+      >
+        <p className="border-2 w-1/2 p-2 m-auto">교환</p>
       </div>
-    </div>
+    </>
   );
 };
 

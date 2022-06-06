@@ -172,8 +172,11 @@ const Mining = () => {
 
   return (
     <div className="max-w-4xl m-auto min-h-screen text-white text-center font-GmarketSansMedium">
-      <img className="w-10/12 m-auto" src="images/mining/mining_banner.png" />
-      <img className="w-8/12 -mt-5 m-auto" src="video/mining.png" />
+      <img
+        className="w-full sm:w-10/12 m-auto"
+        src="images/mining/mining_banner.png"
+      />
+      <img className="w-11/12 sm:w-8/12 -mt-5 m-auto" src="video/mining.png" />
 
       <Modal open={modal} pickId={pickId} stone={stone} close={closeModal} />
       <div className="py-8 w-40 m-auto">
@@ -184,7 +187,7 @@ const Mining = () => {
           START
         </div>
       </div>
-      <p className="py-6">
+      <p className="text-sm sm:text-base p-6">
         아래에 가지고 있는 곡괭이를 선택 후 "START" 버튼을 눌러 믹스스톤을
         채굴해주세요
       </p>

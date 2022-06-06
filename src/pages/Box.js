@@ -184,138 +184,146 @@ const Box = () => {
         </div>
       </div>
       <div className="w-9/12 m-auto">
-        <div className="flex px-5 py-10 bg-areaPurple rounded-3xl font-bold font-GmarketSansMedium text-center">
-          <div className="w-4/12">
+        <div className="block sm:flex px-5 py-10 bg-areaPurple rounded-3xl font-bold font-GmarketSansMedium text-center">
+          <div className="w-6/12 sm:w-4/12 m-auto">
             <p>Normal Key</p>
-            <div className="flex items-center justify-center m-4">
+            <div className="pb-4 sm:pb-0 flex items-center justify-center m-4">
               <img className="w-8" src="images/items/K1.png" />
               <p className="italic">{key1}</p>
             </div>
           </div>
-          <div className="w-4/12">
+          <div className="w-6/12 sm:w-4/12 m-auto">
             <p>Rare Key</p>
-            <div className="flex items-center justify-center m-4">
+            <div className="pb-4 sm:pb-0 flex items-center justify-center m-4">
               <img className="w-8" src="images/items/K2.png" />
               <p className="italic">{key2}</p>
             </div>
           </div>
-          <div className="w-4/12">
+          <div className="w-6/12 sm:w-4/12 m-auto">
             <p>Unique Key</p>
-            <div className="flex items-center justify-center m-4">
+            <div className="pb-4 sm:pb-0 flex items-center justify-center m-4">
               <img className="w-8" src="images/items/K3.png" />
               <p className="italic">{key3}</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="py-10 font-GmarketSansMedium text-center">
+      <div className="text-sm sm:text-base py-10 font-GmarketSansMedium text-center">
         <p className="py-3">트랜잭션은 총 2번 발생합니다</p>
         <p>2 Klay 이상 소유해야 에러가 발생하지 않습니다</p>
       </div>
       <div className="pb-24 font-NanumSquareBold">
-        <div className="w-10/12 m-auto bg-tableBg p-8">
-          <div className="font-GmarketSansLight border-b-4 border-bar py-6 text-center text-3xl">
+        <div className="w-10/12 m-auto bg-tableBg p-3 sm:p-8">
+          <div className="font-GmarketSansLight border-b-4 border-bar py-6 text-center text-2xl sm:text-3xl">
             <p className="text-tableTitle font-bold">Percentage Table</p>
           </div>
-          <div className="w-full p-8">
+          <div className="w-full p-2 pt-4 sm:p-8 sm:pt-0">
             <div className="flex">
               <div className="w-full text-center">
-                <p className="text-2xl pb-2 font-GmarketSansMedium ">
+                <p className="text-lg sm:text-2xl pb-2 font-GmarketSansMedium ">
                   기존 포션
                 </p>
                 <div className="text-tableText">
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       대형 5종류 각 {itemProb.large_potion[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.large_potion[boxId] * 5}%
                     </p>
                   </div>
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       중형 5종류 각 {itemProb.medium_potion[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.medium_potion[boxId] * 5}%
                     </p>
                   </div>
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       소형 5종류 각 {itemProb.small_potion[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.small_potion[boxId] * 5}%
                     </p>
                   </div>
                 </div>
               </div>
               <div className="w-full text-center">
-                <p className="text-2xl pb-2 font-GmarketSansMedium">
+                <p className="text-lg sm:text-2xl pb-2 font-GmarketSansMedium ">
                   믹스종 포션
                 </p>
                 <div className="text-tableText">
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       대형 5종류 각 {itemProb.large_mix_potion[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.large_mix_potion[boxId] * 5}%
                     </p>
                   </div>
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       중형 5종류 각 {itemProb.medium_mix_potion[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.medium_mix_potion[boxId] * 5}%
                     </p>
                   </div>
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       소형 5종류 각 {itemProb.small_mix_potion[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.small_mix_potion[boxId] * 5}%
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex pt-20">
+            <div className="flex pt-6 sm:pt-20">
               <div className="w-full text-center">
-                <p className="text-2xl pb-2 font-GmarketSansMedium">곡괭이</p>
+                <p className="text-lg sm:text-2xl pb-2 font-GmarketSansMedium ">
+                  곡괭이
+                </p>
                 <div className="text-tableText">
-                  <div className="flex">
-                    <p className="w-8/12 p-3">상급 곡괭이</p>
-                    <p className="w-4/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
+                      상급 곡괭이
+                    </p>
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.advanced_pickaxe[boxId]}%
                     </p>
                   </div>
-                  <div className="flex">
-                    <p className="w-8/12 p-3">중급 곡괭이</p>
-                    <p className="w-4/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
+                      중급 곡괭이
+                    </p>
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.intermediate_pickaxe[boxId]}%
                     </p>
                   </div>
-                  <div className="flex">
-                    <p className="w-8/12 p-3">하급 곡괭이</p>
-                    <p className="w-4/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
+                      하급 곡괭이
+                    </p>
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.low_pickaxe[boxId]}%
                     </p>
                   </div>
                 </div>
               </div>
               <div className="w-full text-center">
-                <p className="text-2xl pb-2 font-GmarketSansMedium">
+                <p className="text-lg sm:text-2xl pb-2 font-GmarketSansMedium ">
                   믹스 스톤
                 </p>
                 <div className="text-tableText">
-                  <div className="flex">
-                    <p className="w-8/12 p-3">
+                  <div className="block sm:flex">
+                    <p className="w-full sm:w-8/12 text-sm sm:text-base p-3 m-auto">
                       믹스 스톤 각 {itemProb.stone[boxId]}%
                     </p>
-                    <p className="w-4/12 p-3">
+                    <p className="w-full sm:w-4/12 text-sm sm:text-base p-3 m-auto">
                       총 {itemProb.stone[boxId] * 5}%
                     </p>
                   </div>

@@ -1,12 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import fetch from "node-fetch";
-import caver from "klaytn/caver";
 import nftContract from "klaytn/nftContract";
 import itemContract from "klaytn/itemContract";
 import shopContract from "klaytn/shopContract";
 import keyContract from "klaytn/keyContract";
 
-import ShopSlider from "components/ShopSlider";
 import Modal from "components/ShopModal";
 import Loading from "components/Loading";
 
@@ -34,8 +32,8 @@ const Shop = () => {
   const [tokenId1, setTokenId1] = useState("");
   const [tokenId2, setTokenId2] = useState("");
   const [tokenId3, setTokenId3] = useState("");
-  const [level, setLevel] = useState(0);
   const [tokenURI, setTokenURI] = useState([]);
+  const [level, setLevel] = useState(0);
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -57,14 +55,14 @@ const Shop = () => {
     setStone(balanceStone);
   };
 
-  const sendTx = async () => {
+  const sendTx = async (lv) => {
     if (balance < 2) {
       alert("2 Klay 이상 소유해야 합니다 :)");
       return;
     }
 
     await shopContract.methods
-      .useStone(account, level)
+      .useStone(account, lv)
       .send({
         from: account,
         gas: 2500000,
@@ -132,14 +130,14 @@ const Shop = () => {
       });
   };
 
-  const sendTxNFT = async (lv) => {
+  const sendTxNFT = async () => {
     const tokenArray = [];
-    if (lv === 0) {
+    if (level === 0) {
       tokenArray.push(tokenId1);
-    } else if (lv === 1) {
+    } else if (level === 1) {
       tokenArray.push(tokenId1);
       tokenArray.push(tokenId2);
-    } else if (lv === 2) {
+    } else if (level === 2) {
       tokenArray.push(tokenId1);
       tokenArray.push(tokenId2);
       tokenArray.push(tokenId3);
@@ -147,8 +145,8 @@ const Shop = () => {
       console.log("error");
     }
 
-    await shopContract.methods
-      .useNFT(tokenArray, lv + 1)
+    await keyContract.methods
+      .useNFT(tokenArray, level + 1)
       .send({
         from: account,
         gas: 2500000,
@@ -159,10 +157,20 @@ const Shop = () => {
       .on("receipt", (receipt) => {
         console.log("receipt", receipt);
         alert("열쇠 거래 완료!");
+
+        setTokenId1("");
+        setTokenId2("");
+        setTokenId3("");
+        setModal(false);
       })
       .on("error", (error) => {
         console.log("error", error);
         alert("교환이 취소되었습니다.");
+
+        setTokenId1("");
+        setTokenId2("");
+        setTokenId3("");
+        setModal(false);
       });
   };
 
@@ -173,11 +181,9 @@ const Shop = () => {
     const len = array.length;
     for (let id = 0; id < len; id++) {
       const promise = async (index) => {
-        const res = await fetch(array[index]);
-        const posts = await res.json();
-        console.log(posts.image);
+        const response = await fetch(array[index]).then((res) => res.json());
 
-        urls.push(posts.image);
+        urls.push(response.image);
       };
       promises.push(promise(id));
     }
@@ -186,7 +192,7 @@ const Shop = () => {
     setTokenURI(urls);
   };
 
-  const setOpen = async (level) => {
+  const setOpen = async (lv) => {
     if (balance < 2) {
       alert("2 Klay 이상 소유해야 합니다 :)");
       return;
@@ -197,12 +203,11 @@ const Shop = () => {
     const hour = date.getHours();
     const minute = date.getMinutes();
 
-    console.log(hour, " ", minute);
-    if (hour == 20 || hour == 21) {
-      if (hour == 20) {
+    if (hour === 20 || hour === 21) {
+      if (hour === 20) {
         alert("매일 20:00 ~ 21:30은 상점 점검 시간입니다 (진화 안정)");
         return;
-      } else if (hour == 21 && minute <= 30) {
+      } else if (hour === 21 && minute <= 30) {
         alert("매일 20:00 ~ 21:30은 상점 점검 시간입니다 (진화 안정)");
         return;
       }
@@ -210,8 +215,8 @@ const Shop = () => {
 
     const addr = account.toUpperCase();
     const ipfs = [];
-    if (level === 0) {
-      if (tokenId1 == "") {
+    if (lv === 0) {
+      if (tokenId1 === "") {
         alert("NFT 값을 입력해주세요 :)");
         return;
       }
@@ -225,7 +230,7 @@ const Shop = () => {
 
       let url = await nftContract.methods.tokenURI(tokenId1).call();
       ipfs.push(url);
-    } else if (level === 1) {
+    } else if (lv === 1) {
       if (tokenId1 === "" || tokenId2 === "") {
         alert("NFT 값을 입력해주세요 :)");
         return;
@@ -233,7 +238,7 @@ const Shop = () => {
 
       let own = await nftContract.methods.ownerOf(tokenId1).call();
 
-      if (addr != own.toUpperCase()) {
+      if (addr !== own.toUpperCase()) {
         alert(`${tokenId1}번 NFT의 소유주가 아닙니다.`);
         setTokenId1("");
         setTokenId2("");
@@ -242,7 +247,7 @@ const Shop = () => {
 
       own = await nftContract.methods.ownerOf(tokenId2).call();
 
-      if (addr != own.toUpperCase()) {
+      if (addr !== own.toUpperCase()) {
         alert(`${tokenId2}번 NFT의 소유주가 아닙니다.`);
         setTokenId1("");
         setTokenId2("");
@@ -254,7 +259,7 @@ const Shop = () => {
 
       url = await nftContract.methods.tokenURI(tokenId2).call();
       ipfs.push(url);
-    } else if (level === 2) {
+    } else if (lv === 2) {
       if (tokenId1 === "" || tokenId2 === "" || tokenId3 === "") {
         alert("NFT 값을 입력해주세요 :)");
         return;
@@ -262,7 +267,7 @@ const Shop = () => {
 
       let own = await nftContract.methods.ownerOf(tokenId1).call();
 
-      if (addr != own.toUpperCase()) {
+      if (addr !== own.toUpperCase()) {
         alert(`${tokenId1}번 NFT의 소유주가 아닙니다.`);
         setTokenId1("");
         setTokenId2("");
@@ -272,7 +277,7 @@ const Shop = () => {
 
       own = await nftContract.methods.ownerOf(tokenId2).call();
 
-      if (addr != own.toUpperCase()) {
+      if (addr !== own.toUpperCase()) {
         alert(`${tokenId2}번 NFT의 소유주가 아닙니다.`);
         setTokenId1("");
         setTokenId2("");
@@ -282,7 +287,7 @@ const Shop = () => {
 
       own = await nftContract.methods.ownerOf(tokenId3).call();
 
-      if (addr != own.toUpperCase()) {
+      if (addr !== own.toUpperCase()) {
         alert(`${tokenId3}번 NFT의 소유주가 아닙니다.`);
         setTokenId1("");
         setTokenId2("");
@@ -302,18 +307,22 @@ const Shop = () => {
 
     await setURI(ipfs);
 
-    setLevel(level);
+    setLevel(lv);
     setModal(true);
   };
 
   const closeModal = () => {
+    setTokenId1("");
+    setTokenId2("");
+    setTokenId3("");
     setModal(false);
   };
 
   const prevSlide = () => {
-    const { currentIdx } = this.state;
     if (currentIdx !== 0) {
       setIndex(currentIdx - 1);
+    } else {
+      alert("첫 페이지 입니다.");
     }
   };
 
@@ -321,6 +330,8 @@ const Shop = () => {
     const slideCount = 3;
     if (currentIdx !== slideCount - 1) {
       setIndex(currentIdx + 1);
+    } else {
+      alert("마지막 페이지 입니다.");
     }
   };
 
@@ -353,63 +364,160 @@ const Shop = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="min-h-screen max-w-4xl m-auto text-white">
-      <img src="images/shop/goldot_shop_logo.png" />
-      <p>골닷 상점에 오신 걸 환영합니다</p>
-      <img src="images/shop/goldot_shop_banner.png" />
-      <div className="KeplerShopPage__contents">
-        <div className="KeplerShopPage__table">
-          <div className="table_title">
-            <img src="images/shop/box_title.png" />
-          </div>
+    <div className="min-h-screen max-w-2xl m-auto text-white font-GmarketSansMedium">
+      <img
+        className="w-11/12 sm:w-full m-auto"
+        src="images/shop/goldot_shop_logo.png"
+      />
+      <p className="text-center text-xl sm:text-2xl pt-4 pb-12">
+        골닷 상점에 오신 걸 환영합니다
+      </p>
+      <img
+        className="w-10/12 sm:w-full m-auto"
+        src="images/shop/goldot_shop_banner.png"
+      />
+      <div className="relative w-10/12 sm:w-full m-auto border-2 shadow-custom">
+        <div className="absolute -top-24 sm:-top-40 z-0">
+          <img
+            className="w-full sm:w-8/12 m-auto"
+            src="images/shop/box_title.png"
+          />
+        </div>
 
-          {currentIdx == 0 ? (
-            <ShopPickaxe count={stone} sendTx={(e) => sendTx(level)} />
-          ) : null}
-          {currentIdx == 1 ? (
+        {currentIdx == 0 ? (
+          <div className="py-16 text-center">
+            <ShopPickaxe id={0} sendTx={(e) => sendTx(0)} />
+            <ShopPickaxe id={1} sendTx={(e) => sendTx(1)} />
+            <ShopPickaxe id={2} sendTx={(e) => sendTx(2)} />
+            <div className="block sm:flex w-2/3 sm:w-1/2 m-auto text-center items-center pt-8">
+              <p className="w-full sm:w-9/12 pb-8 sm:pb-0 m-auto text-lg sm:text-2xl">
+                남은 빛바랜 스톤 갯수
+              </p>
+              <p className="w-full sm:w-3/12 m-auto text-4xl">{stone}</p>
+            </div>
+          </div>
+        ) : null}
+        {currentIdx == 1 ? (
+          <div className="py-16 text-center">
             <ShopKey
-              count={nft}
+              id={0}
               input1={onInputtokenId1}
               input2={onInputtokenId2}
               input3={onInputtokenId3}
               num1={tokenId1}
-              num2={tokenId3}
+              num2={tokenId2}
               num3={tokenId3}
-              setOpen={(e) => setOpen(level)}
+              setOpen={(e) => setOpen(0)}
             />
-          ) : null}
-          {currentIdx == 2 ? (
+            <ShopKey
+              id={1}
+              input1={onInputtokenId1}
+              input2={onInputtokenId2}
+              input3={onInputtokenId3}
+              num1={tokenId1}
+              num2={tokenId2}
+              num3={tokenId3}
+              setOpen={(e) => setOpen(1)}
+            />
+            <ShopKey
+              id={2}
+              input1={onInputtokenId1}
+              input2={onInputtokenId2}
+              input3={onInputtokenId3}
+              num1={tokenId1}
+              num2={tokenId2}
+              num3={tokenId3}
+              setOpen={(e) => setOpen(2)}
+            />
+            <div className="block sm:flex w-1/2 m-auto text-center items-center pt-8">
+              <p className="w-full sm:w-7/12 m-auto pb-6 sm:pb-0 text-lg sm:text-2xl">
+                남은 NFT 갯수
+              </p>
+              <p className="w-full sm:w-5/12 m-auto text-2xl sm:text-4xl">
+                {nft}
+              </p>
+            </div>
+          </div>
+        ) : null}
+        {currentIdx == 2 ? (
+          <div className="relative py-16 text-center">
+            <div className="w-10/12 sm:w-5/12 m-auto bg-shopItem p-4 items-center rounded-lg z-3">
+              <p className="pb-3">현재 보고 있는 종</p>
+              <div className="flex w-1/2 sm:w-1/3 m-auto items-center">
+                <span className="w-3/12" onClick={prevPotionSlide}>
+                  <img
+                    className="p-0.5 border-2 border-shopItem cursor-pointer rounded-lg hover:border-white"
+                    src="images/shop/prev.png"
+                  />
+                </span>
+                <p className="w-6/12">{currentPotionIdx + 1} 종</p>
+                <span className="w-3/12" onClick={nextPotionSlide}>
+                  <img
+                    className="p-0.5 border-2 border-shopItem cursor-pointer rounded-lg hover:border-white"
+                    src="images/shop/next.png"
+                  />
+                </span>
+              </div>
+            </div>
             <ShopPotion
-              prev={prevPotionSlide}
-              next={nextPotionSlide}
+              id={0}
               currentPotionIdx={currentPotionIdx}
-              sendTxUp={(e) => sendTxUp(level)}
-              sendTxMix={(e) => sendTxMix(level)}
+              sendTxUp={(e) => sendTxUp(20)}
             />
-          ) : null}
+            <ShopPotion
+              id={1}
+              currentPotionIdx={currentPotionIdx}
+              sendTxUp={(e) => sendTxUp(10)}
+            />
+            <ShopPotion
+              id={0}
+              currentPotionIdx={currentPotionIdx}
+              sendTxMix={(e) => sendTxMix(20)}
+            />
+            <ShopPotion
+              id={1}
+              currentPotionIdx={currentPotionIdx}
+              sendTxMix={(e) => sendTxMix(10)}
+            />
+            <ShopPotion
+              id={2}
+              currentPotionIdx={currentPotionIdx}
+              sendTxMix={(e) => sendTxMix(0)}
+            />
+          </div>
+        ) : null}
 
-          <Modal
-            open={modal}
-            tokenId1={tokenId1}
-            tokenId2={tokenId2}
-            tokenId3={tokenId3}
-            urls={tokenURI}
-            tx={(e) => sendTxNFT(level)}
-            close={closeModal}
+        <Modal
+          open={modal}
+          tokenId1={tokenId1}
+          tokenId2={tokenId2}
+          tokenId3={tokenId3}
+          urls={tokenURI}
+          tx={sendTxNFT}
+          close={closeModal}
+        />
+      </div>
+
+      <div className="flex w-2/3 sm:w-1/3 py-8 m-auto items-center">
+        <span className="w-1/4 cursor-pointer" onClick={prevSlide}>
+          <img
+            className="w-1/2 bg-shopItem rounded-md p-1 m-auto border-2 border-shopItem hover:border-white"
+            src="images/shop/prev.png"
           />
-        </div>
+        </span>
+        <p className="w-1/2 text-xl text-center">{sell_item[currentIdx]}</p>
+        <span className="w-1/4 cursor-pointer" onClick={nextSlide}>
+          <img
+            className="w-1/2 bg-shopItem rounded-md p-1 m-auto border-2 border-shopItem hover:border-white"
+            src="images/shop/next.png"
+          />
+        </span>
+      </div>
 
-        <div className="table_changer">
-          <span className="prev" onClick={prevSlide}>
-            <img src="images/shop/prev.png" />
-          </span>
-          <p>{sell_item[currentIdx]}</p>
-          <span className="next" onClick={nextSlide}>
-            <img src="images/shop/next.png" />
-          </span>
-        </div>
-
-        <p>2 Klay 이상 소유해야 트랜잭션이 에러를 발생시키지 않습니다</p>
+      <div className="text-center text-sm sm:text-base py-3">
+        <p className="w-10/12 sm:w-full m-auto py-3">
+          2 Klay 이상 소유해야 트랜잭션이 에러를 발생시키지 않습니다
+        </p>
         <p>매일 20:30 ~ 21:30은 열쇠 거래가 제한됩니다</p>
       </div>
     </div>

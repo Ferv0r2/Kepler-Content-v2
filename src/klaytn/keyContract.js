@@ -1,5 +1,5 @@
 import caver from "klaytn/caver";
-import ABI from "abi/nftABI.json";
+import ABI from "abi/shopABI.json";
 
 /**
  * 1. Create contract instance
