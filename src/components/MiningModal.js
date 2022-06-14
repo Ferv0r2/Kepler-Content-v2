@@ -40,7 +40,7 @@ const MiningModal = ({ open, close, pickId, stone, isCount }) => {
                   </p>
                 </div>
                 <div className="absolute w-11/12 sm:w-8/12 top-5 sm:top-12 left-3 sm:left-24 transform bg-gradient-to-b from-miningModalTop to-miningModalBottom rounded-3xl border-8 border-miningModalBorder scale-0 animation-fill-forwards animation-delay-5000 animate-showDisplay">
-                  <p className="text-miningModalText text-xl sm:text-3xl pt-6 sm:pt-3">
+                  <p className="text-miningModalText text-xl sm:text-3xl pt-6 sm:pt-8">
                     채굴 결과
                   </p>
                   <div className="relative w-full h-64 sm:h-96 -mt-4">

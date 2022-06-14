@@ -34,6 +34,8 @@ module.exports = {
         miningModalBorder: "#4b2e78",
         miningModalText: "#a875bd",
         shopItem: "#2b2b2b",
+        govBg: "#221b3d",
+        govBtn: "#0f0c1b",
         light_gray: "#b5b2bc",
         hover_pink: "#d52e82",
         top_gray: "#a3a3a3",

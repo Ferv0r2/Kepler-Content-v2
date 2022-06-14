@@ -38,11 +38,10 @@ const Shop = () => {
 
   useEffect(() => {
     setBg("bg-black");
-    setLoading(false);
   }, []);
 
   useEffect(() => {
-    getBalance();
+    if (isLoading) getBalance();
   });
 
   const getBalance = async () => {
@@ -53,6 +52,8 @@ const Shop = () => {
 
     setNFT(balanceNFT);
     setStone(balanceStone);
+
+    setLoading(false);
   };
 
   const sendTx = async (lv) => {
@@ -376,10 +377,10 @@ const Shop = () => {
         className="w-10/12 sm:w-full m-auto"
         src="images/shop/goldot_shop_banner.png"
       />
-      <div className="relative w-10/12 sm:w-full m-auto border-2 shadow-custom">
-        <div className="absolute -top-24 sm:-top-40 z-0">
+      <div className="w-10/12 sm:w-full m-auto border-2 shadow-custom">
+        <div className="relative w-full sm:w-8/12 m-auto">
           <img
-            className="w-full sm:w-8/12 m-auto"
+            className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             src="images/shop/box_title.png"
           />
         </div>

@@ -28,11 +28,10 @@ const Mining = () => {
   useEffect(() => {
     setBg("bg-miningBg");
     getPick();
-    setLoading(false);
   }, []);
 
   useEffect(() => {
-    getPick();
+    if (isLoading) getPick();
   });
 
   const getPick = async () => {
@@ -45,6 +44,7 @@ const Mining = () => {
       .call();
 
     setPick(pickaxe);
+    setLoading(false);
   };
 
   const gachaId = async () => {
@@ -57,7 +57,7 @@ const Mining = () => {
     const itemGacha = Math.random() * 100; // 0 ~ 99 실수
     const itemNum = Math.floor(Math.random() * 5) + 30; // 0 ~ 4
 
-    if (pickId == 2) {
+    if (pickId === 2) {
       if (destruct < 40) {
         status = 0;
       }
@@ -71,7 +71,7 @@ const Mining = () => {
         pointer = itemNum;
         counter = 1;
       }
-    } else if (pickId == 1) {
+    } else if (pickId === 1) {
       if (destruct < 55) {
         status = 0;
       }
@@ -82,7 +82,7 @@ const Mining = () => {
         pointer = itemNum;
         counter = 1;
       }
-    } else if (pickId == 0) {
+    } else if (pickId === 0) {
       if (destruct < 70) {
         status = 0;
       }
@@ -117,54 +117,55 @@ const Mining = () => {
       .on("error", (error) => {
         console.log("error", error);
         alert("믹스스톤 채굴이 취소되었습니다.");
+        return;
       });
   };
 
-  // const sendTxItem = async () => {
-  //   if (balance < 2) {
-  //     alert("2 Klay 이상 소유해야 합니다 :)");
-  //     return;
-  //   }
-
-  //   if (pick == 0) {
-  //     alert("곡괭이가 없습니다.");
-  //     return;
-  //   }
-
-  //   const payer = await miningContract.methods.payers(pickId, account).call();
-
-  //   if (!payer) await sendTxUse();
-
-  //   const gacha = await miningContract.methods.gachas(pickId, account).call();
-
-  //   await miningContract.methods
-  //     .mining(pickId, isBreak)
-  //     .send({
-  //       from: account,
-  //       gas: 2500000,
-  //     })
-  //     .on("transactionHash", (transactionHash) => {
-  //       console.log("txHash", transactionHash);
-  //     })
-  //     .on("receipt", (receipt) => {
-  //       console.log("receipt", receipt);
-  //       setStone(gacha[0]);
-  //       setCount(gacha[1]);
-  //       setModal(true);
-  //     })
-  //     .on("error", (error) => {
-  //       console.log("error", error);
-  //       alert("믹스스톤 채굴이 취소되었습니다.");
-  //     });
-  // };
-
   const sendTxItem = async () => {
-    setStone(32);
-    setCount(1);
-    setModal(true);
+    if (balance < 2) {
+      alert("2 Klay 이상 소유해야 합니다 :)");
+      return;
+    }
+
+    if (pick === 0) {
+      alert("곡괭이가 없습니다.");
+      return;
+    }
+
+    const payer = await miningContract.methods.payers(pickId, account).call();
+
+    if (!payer) await sendTxUse();
+
+    const gacha = await miningContract.methods.gachas(pickId, account).call();
+
+    await miningContract.methods
+      .mining(pickId, isBreak)
+      .send({
+        from: account,
+        gas: 2500000,
+      })
+      .on("transactionHash", (transactionHash) => {
+        console.log("txHash", transactionHash);
+      })
+      .on("receipt", (receipt) => {
+        console.log("receipt", receipt);
+        getPick();
+        setStone(gacha[0]);
+        setCount(gacha[1]);
+        setModal(true);
+      })
+      .on("error", (error) => {
+        console.log("error", error);
+        alert("믹스스톤 채굴이 취소되었습니다.");
+      });
   };
 
   const closeModal = () => {
+    if (isBreak === 1) {
+      alert("곡괭이는 무사합니다!");
+    } else {
+      alert("곡괭이가 파괴되었습니다..");
+    }
     setModal(false);
   };
 

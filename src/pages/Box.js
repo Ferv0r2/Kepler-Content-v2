@@ -31,11 +31,10 @@ const Box = () => {
   useEffect(() => {
     setBg("bg-gradient-to-b from-boxTop to-boxBottom");
     getKey();
-    setLoading(false);
   }, []);
 
   useEffect(() => {
-    getKey();
+    if (isLoading) getKey();
   });
 
   const getKey = async () => {
@@ -49,6 +48,8 @@ const Box = () => {
     setKey1(getKey1);
     setKey2(getKey2);
     setKey3(getKey3);
+
+    setLoading(false);
   };
 
   const gachaId = async () => {
@@ -112,56 +113,56 @@ const Box = () => {
     }
 
     await gachaId();
-    try {
-      await boxContract.methods.useKey(account, boxId, item).send({
+    await boxContract.methods
+      .useKey(account, boxId, item)
+      .send({
         from: account,
         gas: 2500000,
+      })
+      .on("transactionHash", (transactionHash) => {
+        console.log("txHash", transactionHash);
+      })
+      .on("receipt", (receipt) => {
+        console.log("receipt", receipt);
+        getKey();
+      })
+      .on("error", (error) => {
+        console.log("error", error);
+        alert("상자깡이 취소되었습니다.");
+        return;
       });
-    } catch {
-      alert("상자깡이 취소되었습니다.");
-    }
   };
 
-  // const sendTxKey = async () => {
-  //   if (balance < 2) {
-  //     alert("2 Klay 이상 소유해야 합니다 :)");
-  //     return;
-  //   }
-
-  //   const payer = await boxContract.methods.payers(boxId, account).call();
-
-  //   if (!payer) await sendTxItem();
-  //   const gacha = await boxContract.methods.gacha(boxId, account).call();
-
-  //   await boxContract.methods
-  //     .mintItem(boxId)
-  //     .send({
-  //       from: account,
-  //       gas: 2500000,
-  //     })
-  //     .on("transactionHash", (transactionHash) => {
-  //       console.log("txHash", transactionHash);
-  //     })
-  //     .on("receipt", (receipt) => {
-  //       console.log("receipt", receipt);
-  //       setItem(gacha);
-  //       setModal(true);
-  //     })
-  //     .on("error", (error) => {
-  //       console.log("error", error);
-  //       alert("상자깡이 취소되었습니다.");
-  //     });
-  // };
-
   const sendTxKey = async () => {
-    // tester
     if (balance < 2) {
       alert("2 Klay 이상 소유해야 합니다 :)");
       return;
     }
 
-    setItem(5);
-    setModal(true);
+    const payer = await boxContract.methods.payers(boxId, account).call();
+
+    if (!payer) await sendTxItem();
+    const gacha = await boxContract.methods.gacha(boxId, account).call();
+
+    await boxContract.methods
+      .mintItem(boxId)
+      .send({
+        from: account,
+        gas: 2500000,
+      })
+      .on("transactionHash", (transactionHash) => {
+        console.log("txHash", transactionHash);
+      })
+      .on("receipt", (receipt) => {
+        console.log("receipt", receipt);
+        setItem(gacha);
+        setModal(true);
+      })
+      .on("error", (error) => {
+        console.log("error", error);
+        alert("상자깡이 취소되었습니다.");
+        return;
+      });
   };
 
   const closeModal = () => {
@@ -217,7 +218,7 @@ const Box = () => {
           <div className="font-GmarketSansLight border-b-4 border-bar py-6 text-center text-2xl sm:text-3xl">
             <p className="text-tableTitle font-bold">Percentage Table</p>
           </div>
-          <div className="w-full p-2 pt-4 sm:p-8 sm:pt-0">
+          <div className="w-full p-2 pt-4 sm:p-8">
             <div className="flex">
               <div className="w-full text-center">
                 <p className="text-lg sm:text-2xl pb-2 font-GmarketSansMedium ">

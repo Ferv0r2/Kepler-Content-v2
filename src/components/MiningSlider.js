@@ -11,7 +11,7 @@ const MiningSlider = () => {
     setPickId(currentSlide);
     return (
       <div
-        className="absolute sm:top-48 sm:-left-16 bottom-0 left-8 w-8 h-8 cursor-pointer z-10"
+        className="absolute sm:top-48 sm:-left-16 bottom-0 left-8 w-8 h-8 cursor-pointer z-0"
         onClick={() => {
           onClick();
         }}
@@ -25,7 +25,7 @@ const MiningSlider = () => {
     setPickId(currentSlide);
     return (
       <div
-        className="absolute sm:top-48 sm:-right-16 bottom-0 right-8 w-8 h-8 cursor-pointer z-10"
+        className="absolute sm:top-48 sm:-right-16 bottom-0 right-8 w-8 h-8 cursor-pointer z-0"
         onClick={() => {
           onClick();
         }}

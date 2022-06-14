@@ -7,7 +7,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy": "copy CNAME build && gh-pages -d build -t true"
+    "deploy": "npm run build && copy CNAME build && gh-pages -d build -t true"
   },
   "resolutions": {
     "react-error-overlay": "6.0.11"
